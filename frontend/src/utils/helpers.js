@@ -71,3 +71,43 @@ export const parseKaranas = (s) => {
   }
   return parts.length ? parts : [s];
 };
+
+export const TITHI_NUM_MAP = {
+  'Pratipada':1,'Dwitiya':2,'Tritiya':3,'Chaturthi':4,'Panchami':5,
+  'Shashthi':6,'Saptami':7,'Ashtami':8,'Navami':9,'Dashami':10,
+  'Ekadashi':11,'Dwadashi':12,'Trayodashi':13,'Chaturdashi':14,
+  'Purnima':15,'Amavasya':15
+};
+
+export const tithiNum = (raw, paksha) => {
+  const name = extractName(raw);
+  if (!name) return null;
+  const base = TITHI_NUM_MAP[name];
+  if (base === undefined || base === null) return null;
+  return { num: base, paksha: paksha };
+};
+
+export const tithiNumLabel = (t) => {
+  if (!t) return '';
+  const { num, paksha } = t;
+  return paksha === 'Shukla Paksha' ? `S${num}` : `K${num}`;
+};
+
+export const moonIcon = (tithi, paksha) => {
+  if (!tithi || !paksha) return '🌑';
+  const name = extractName(tithi);
+  if (name === 'Purnima') return '🌕';
+  if (name === 'Amavasya') return '🌑';
+  const n = TITHI_NUM_MAP[name] || 1;
+  if (paksha === 'Shukla Paksha') {
+    if (n <= 4) return '🌒';
+    if (n <= 9) return '🌓';
+    if (n <= 14) return '🌔';
+    return '🌕';
+  } else {
+    if (n <= 4) return '🌖';
+    if (n <= 9) return '🌗';
+    if (n <= 14) return '🌘';
+    return '🌑';
+  }
+};
