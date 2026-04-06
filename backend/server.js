@@ -18,16 +18,16 @@ app.use('/api/auth', require('./routes/auth'));
 
 app.get('/health', async (req, res) => {
   try {
-
+    let state = "not okay";
     const dbState = mongoose.connection.readyState;
     let dbStatus = "disconnected";
-    if (dbState === 1) dbStatus = "connected";
+    if (dbState === 1) {dbStatus = "connected"; state = "okay";}
     else if (dbState === 2) dbStatus = "connecting";
     const uptimeMs = Date.now() - startTime;
     const uptimeSec = Math.floor(uptimeMs / 1000);
     
     res.status(200).json({
-      status: "ok",
+      status: state,
       database: dbStatus,
       uptime: `${uptimeSec} seconds`,
       timestamp: new Date().toISOString()
