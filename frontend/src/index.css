@@ -425,6 +425,372 @@ code {
   vertical-align: middle;
 }
 
+/* Phase 7A: Topbar nav + Location modal + Festivals page */
+.topbar {
+  flex-wrap: wrap;
+}
+
+.topbar-years {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.ty-chip {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.45rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--code-bg);
+  color: var(--text-h);
+}
+
+.topbar-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+  margin-left: 0.5rem;
+}
+
+.tn-btn {
+  text-decoration: none;
+  font-size: 0.8rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-h);
+}
+
+.tn-btn.active {
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
+}
+
+.topbar-pm {
+  margin-left: auto;
+  font: inherit;
+  font-size: 0.8rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-h);
+  cursor: pointer;
+}
+
+.topbar-pm.purnimanta-active {
+  border-color: var(--accent-border);
+  background: var(--accent-bg);
+}
+
+.topbar-login-btn {
+  font: inherit;
+  font-size: 0.8rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--code-bg);
+  color: var(--text-h);
+  cursor: pointer;
+}
+
+.topbar-loc {
+  margin-left: 0.4rem;
+  font: inherit;
+  font-size: 0.8rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-h);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.loc-modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 9999;
+}
+
+.loc-modal {
+  width: min(720px, 100%);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem;
+  box-shadow: var(--shadow);
+}
+
+.loc-modal-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-h);
+  margin-bottom: 0.25rem;
+}
+
+.loc-modal-desc {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 0.9rem;
+}
+
+.loc-detect {
+  width: 100%;
+  font: inherit;
+  font-size: 0.9rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--code-bg);
+  color: var(--text-h);
+  cursor: pointer;
+  margin-bottom: 0.9rem;
+}
+
+.loc-detect:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.city-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.city-btn {
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-h);
+  cursor: pointer;
+}
+
+.city-btn.selected {
+  border-color: var(--accent-border);
+  background: var(--accent-bg);
+}
+
+.loc-sep {
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-align: center;
+  margin: 0.5rem 0;
+}
+
+.coord-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  margin-bottom: 0.7rem;
+}
+
+.coord-label {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-bottom: 0.25rem;
+}
+
+.coord-input {
+  width: 100%;
+  padding: 0.55rem 0.6rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-h);
+  font: inherit;
+}
+
+.loc-note {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin: 0.75rem 0 1rem;
+}
+
+.loc-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.loc-apply {
+  flex: 1;
+  font: inherit;
+  font-size: 0.9rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 12px;
+  border: 1px solid var(--accent-border);
+  background: var(--accent-bg);
+  color: var(--text-h);
+  cursor: pointer;
+}
+
+.loc-cancel {
+  flex: 0;
+  font: inherit;
+  font-size: 0.9rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--code-bg);
+  color: var(--text-h);
+  cursor: pointer;
+}
+
+/* Festivals page */
+.fp-content {
+  padding: 1rem 0.4rem;
+}
+
+.fp-search-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.fp-search {
+  width: min(520px, 100%);
+  padding: 0.6rem 0.75rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-h);
+  font: inherit;
+}
+
+.fp-month-group {
+  margin: 1rem 0;
+}
+
+.fp-month-label {
+  font-weight: 700;
+  color: var(--text-h);
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.55rem 0;
+}
+
+.fp-fest-count {
+  font-size: 0.75rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--code-bg);
+  color: var(--text-h);
+}
+
+.fp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.fp-entry {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--bg);
+  cursor: pointer;
+}
+
+.fp-entry:hover {
+  border-color: var(--accent-border);
+}
+
+.fp-entry-left {
+  width: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  border-right: 1px dashed var(--border);
+  padding-right: 0.5rem;
+}
+
+.fp-moon-big {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.fp-tithi-lbl {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--text-h);
+}
+
+.fp-divider {
+  flex: 0 0 1px;
+}
+
+.fp-entry-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.fp-fest-name {
+  font-weight: 700;
+  color: var(--text-h);
+  font-size: 0.95rem;
+}
+
+.fp-fest-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.fp-paksha-badge {
+  padding: 0.15rem 0.45rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-weight: 700;
+}
+
+.fp-krishna {
+  background: rgba(96, 64, 160, 0.12);
+  border-color: rgba(96, 64, 160, 0.35);
+}
+
+.fp-shukla {
+  background: rgba(139, 94, 60, 0.12);
+  border-color: rgba(139, 94, 60, 0.35);
+}
+
+.fp-tithi-chip {
+  padding: 0.15rem 0.45rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--code-bg);
+}
+
+.fp-greg-date {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
 /* Day view + cards */
 #tabDay {
   max-width: 960px;

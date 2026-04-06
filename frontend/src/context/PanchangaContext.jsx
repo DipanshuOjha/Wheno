@@ -19,6 +19,7 @@ export const PanchangaProvider = ({ children }) => {
 
   // Filters
   const [filterMode, setFilterMode] = useState('all');
+  const [locModalOpen, setLocModalOpen] = useState(false);
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
   const togglePanchaMode = () => setPanchaMode(prev => prev === 'amanta' ? 'purnimanta' : 'amanta');
@@ -30,7 +31,8 @@ export const PanchangaProvider = ({ children }) => {
       dvDate, setDvDate,
       curMonthIdx, setCurMonthIdx,
       sidebarOpen, toggleSidebar,
-      filterMode, setFilterMode
+      filterMode, setFilterMode,
+      locModalOpen, setLocModalOpen
     }}>
       {children}
     </PanchangaContext.Provider>
