@@ -1,51 +1,81 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../middleware/authMiddleware');
-const Activity = require('../models/Activity');
+const auth = require('../middleware/authmiddleware');
+const Journal = require('../models/Journal');
 
-// @route   GET api/activities
-// @desc    Get all activities for a user
+// @route   GET api/journal
+// @desc    Get all journal entries for logged-in user
 router.get('/', auth, async (req, res) => {
   try {
-    // Sorting by date string ascending
-    const activities = await Activity.find({ user: req.user.id }).sort({ dateKey: 1 });
-    res.json(activities);
+    const entries = await Journal.find({ user: req.user.id }).sort({ dateKey: -1 });
+    res.json(entries);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
 });
 
-// @route   POST api/activities
-// @desc    Add new activity/booking
+// @route   POST api/journal
+// @desc    Add new journal entry
 router.post('/', auth, async (req, res) => {
+  const { dateKey, title, body, mood } = req.body;
+
   try {
-    const newActivity = new Activity({
+    const newEntry = new Journal({
       user: req.user.id,
-      ...req.body // Spreading the body to grab dateKey, activityId, startTime, etc.
+      dateKey,
+      title,
+      body,
+      mood
     });
 
-    const activity = await newActivity.save();
-    res.json(activity);
+    const entry = await newEntry.save();
+    res.json(entry);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
 });
 
-// @route   DELETE api/activities/:id
-// @desc    Delete an activity
-router.delete('/:id', auth, async (req, res) => {
-  try {
-    const activity = await Activity.findById(req.params.id);
-    if (!activity) return res.status(404).json({ msg: 'Activity not found' });
+// @route   PUT api/journal/:id
+// @desc    Update journal entry
+router.put('/:id', auth, async (req, res) => {
+  const { title, body, mood } = req.body;
 
-    if (activity.user.toString() !== req.user.id) {
+  try {
+    let entry = await Journal.findById(req.params.id);
+    if (!entry) return res.status(404).json({ msg: 'Entry not found' });
+    
+    // Ensure user owns the entry
+    if (entry.user.toString() !== req.user.id) {
       return res.status(401).json({ msg: 'Not authorized' });
     }
 
-    await Activity.findByIdAndDelete(req.params.id);
-    res.json({ msg: 'Activity removed' });
+    entry = await Journal.findByIdAndUpdate(
+      req.params.id,
+      { $set: { title, body, mood } },
+      { new: true }
+    );
+    res.json(entry);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   DELETE api/journal/:id
+// @desc    Delete journal entry
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    const entry = await Journal.findById(req.params.id);
+    if (!entry) return res.status(404).json({ msg: 'Entry not found' });
+
+    if (entry.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'Not authorized' });
+    }
+
+    await Journal.findByIdAndDelete(req.params.id);
+    res.json({ msg: 'Entry removed' });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

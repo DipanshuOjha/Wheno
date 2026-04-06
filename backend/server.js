@@ -6,7 +6,7 @@ const PORT = process.env.PORT;
 const app = express()
 const startTime = Date.now();
 
-console.log(process.env.MONGO_URI);
+//console.log(process.env.MONGO_URI);
 
 app.use(cors());
 app.use(express.json());

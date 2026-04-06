@@ -1,8 +1,56 @@
 // frontend/src/utils/astronomy.js
 import { PD } from '../data/panchanga';
-import { pt, ft, extractName, extractUpto, isNextDay } from './helpers';
-
+import { pt, ft, extractName, extractUpto, isNextDay, tithiNum, tithiNumLabel } from './helpers';
 const srssCache = {};
+
+export const getTithiAtLocalSunrise = (dk, lat, lon) => {
+  const pd = PD[dk];
+  if (!pd) return null;
+  
+  if (pd.isNewYear) {
+    return { name: 'Pratipada', paksha: 'Shukla Paksha', label: 'S1', until: '(Chaitra 1 — New Year)', isAlt: false };
+  }
+
+  const { srMins } = getLocMuhurtas(dk, lat, lon);
+  const upto1 = pt(pd.tithi);
+
+  // If primary tithi ends before local sunrise, we use tithi2
+  if (upto1 !== null && upto1 < srMins && pd.tithi2) {
+    const name2 = extractName(pd.tithi2);
+    const upto2 = extractUpto(pd.tithi2);
+    const nd2 = isNextDay(pd.tithi2);
+    
+    let paksha2 = pd.paksha;
+    if (extractName(pd.tithi) === 'Amavasya') paksha2 = 'Shukla Paksha';
+    if (extractName(pd.tithi) === 'Purnima') paksha2 = 'Krishna Paksha';
+    
+    const tn2c = tithiNum(pd.tithi2, paksha2);
+    
+    return {
+      name: name2,
+      paksha: paksha2,
+      label: tithiNumLabel(tn2c),
+      until: upto2 ? `until ${upto2}${nd2 ? ' →' : ''}` : (pd.tithi2.includes('Full Night') ? 'full night' : ''),
+      isAlt: true,
+      altMsg: `(Previous tithi ${extractName(pd.tithi)} ended at ${ft(upto1)}, before sunrise ${ft(srMins)})`,
+    };
+  }
+
+  // Primary tithi active at local sunrise
+  const name = extractName(pd.tithi);
+  const upto = extractUpto(pd.tithi);
+  const nd = isNextDay(pd.tithi);
+  const tn = tithiNum(pd.tithi, pd.paksha);
+  
+  return {
+    name,
+    paksha: pd.paksha,
+    label: tithiNumLabel(tn),
+    until: upto ? `until ${upto}${nd ? ' →' : ''}` : (pd.tithi.includes('Full Night') ? 'full night' : ''),
+    isAlt: false,
+    altMsg: '',
+  };
+};
 
 // NOAA sunrise/sunset formula (Meeus Algorithm)
 export const calcSrSs = (lat, lon, y, mo, d) => {
