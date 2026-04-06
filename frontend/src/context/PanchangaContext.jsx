@@ -13,7 +13,7 @@ export const PanchangaProvider = ({ children }) => {
   });
   
   // State for UI navigation
-  const [dvDate, setDvDate] = useState('20260319'); // Default starting date
+  const [dvDate, setDvDate] = useState('20260327'); // Must exist in PD; align when full data is pasted
   const [curMonthIdx, setCurMonthIdx] = useState(0);
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
