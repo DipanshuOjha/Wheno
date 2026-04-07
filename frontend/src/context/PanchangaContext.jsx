@@ -16,10 +16,13 @@ export const PanchangaProvider = ({ children }) => {
   const [dvDate, setDvDate] = useState('20260327'); // Must exist in PD; align when full data is pasted
   const [curMonthIdx, setCurMonthIdx] = useState(0);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [locModalOpen, setLocModalOpen] = useState(false);
 
   // Filters
   const [filterMode, setFilterMode] = useState('all');
-  const [locModalOpen, setLocModalOpen] = useState(false);
+  const [tF, setTF] = useState(''); // Tithi filter
+  const [nF, setNF] = useState(''); // Nakshatra filter
+  const [pF, setPF] = useState(''); // Paksha filter
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
   const togglePanchaMode = () => setPanchaMode(prev => prev === 'amanta' ? 'purnimanta' : 'amanta');
@@ -31,8 +34,11 @@ export const PanchangaProvider = ({ children }) => {
       dvDate, setDvDate,
       curMonthIdx, setCurMonthIdx,
       sidebarOpen, toggleSidebar,
+      locModalOpen, setLocModalOpen,
       filterMode, setFilterMode,
-      locModalOpen, setLocModalOpen
+      tF, setTF, // <--- Added Tithi state
+      nF, setNF, // <--- Added Nakshatra state
+      pF, setPF  // <--- Added Paksha state
     }}>
       {children}
     </PanchangaContext.Provider>
